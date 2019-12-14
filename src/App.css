@@ -13,6 +13,22 @@
     width: 200px;
 }
 
+.text-card{
+    max-height: 128px;
+}
+
+.h-full{
+    max-height: 100%;
+}
+
+.transform {
+    -webkit-transition: all .3s ease;  
+    -moz-transition: all .3s ease;  
+    -o-transition: all .3s ease;  
+    -ms-transition: all .3s ease;  
+    transition: all .3s ease;
+  }
+
 .bg-transparent{
     background-color: rgba(0, 0, 0, .5);
 }

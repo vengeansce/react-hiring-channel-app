@@ -12,9 +12,10 @@ class Header extends React.Component {
                 <div class="w-1/6 h-12 center">
                     <img className="arkademy-logo inline" src="assets/images/logo-arkademy.svg" alt="Arkademy" />
                 </div>
-                <div class="w-3/6 h-12">
+                <div class="w-3/6 h-12 relative">
+                    <i class="fas fa-search absolute py-3 pl-4"></i>
                     <input
-                        className="w-full bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        className="w-full bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 pl-12 pr-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                         id="inline-full-name" type="text" value="Jane Doe" />
                 </div>
                 <div class="w-2/6 h-12 py-2 text-center inline-block">
