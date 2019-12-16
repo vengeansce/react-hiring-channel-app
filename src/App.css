@@ -1,34 +1,62 @@
-.arkademy-logo{
-    height: 40px;
+.arkademy-logo {
+  height: 40px;
 }
 
-.center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.card-size{
-    height: 300px;
-    width: 200px;
+.card-size {
+  height: 300px;
+  width: 200px;
 }
 
-.text-card{
-    max-height: 128px;
+.text-card {
+  height: 128px;
 }
 
-.h-full{
-    max-height: 100%;
+.text-card:hover {
+  height: 300px;
 }
 
 .transform {
-    -webkit-transition: all .3s ease;  
-    -moz-transition: all .3s ease;  
-    -o-transition: all .3s ease;  
-    -ms-transition: all .3s ease;  
-    transition: all .3s ease;
-  }
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
 
-.bg-transparent{
-    background-color: rgba(0, 0, 0, .5);
+.btn-icon{
+  width: 31px;
+}
+
+.line::after {
+  content: "";
+  border-right-width: 1px;
+  height: 12px;
+  padding-left: .5rem;
+  display: inline-block;
+}
+
+.arrow-after::after {
+  content: "Details \00BB";
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  transform: scaleX(0.5);
+  transform-origin: right;
+  transition: all 0.3s;
+  opacity: 0;
+}
+
+.arrow-after:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.bg-transparent {
+  background-color: rgba(0, 0, 0, 0.5);
 }
