@@ -8,9 +8,8 @@
   align-items: center;
 }
 
-.card-size {
+.card-height {
   height: 300px;
-  width: 200px;
 }
 
 .text-card {

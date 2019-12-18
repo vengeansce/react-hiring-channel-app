@@ -8,17 +8,17 @@ class Header extends React.Component {
   render() {
     return (
         <header className="border-b-4 p-5">
-            <div class="flex">
-                <div class="w-1/6 h-12 center">
+            <div class="flex flex-wrap">
+                <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/6 h-12 center">
                     <img className="arkademy-logo inline" src="assets/images/logo-arkademy.svg" alt="Arkademy" />
                 </div>
-                <div class="w-3/6 h-12 relative">
+                <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-3/6 h-12 relative">
                     <i class="fas fa-search absolute py-3 pl-4"></i>
                     <input
                         className="w-full bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 pl-12 pr-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-full-name" type="text" value="Jane Doe" />
+                        id="inline-full-name" type="text" value={this.props.value} onChange={this.props.inputChange} placeholder="Search by name, skills, or salary"/>
                 </div>
-                <div class="w-2/6 h-12 py-2 text-center inline-block">
+                <div class="w-full sm:w-1/2 md:w-2/4 lg:w-2/4 xl:w-2/6 h-12 py-2 text-center inline-block">
                     <span className="pr-4 border-r-2">
                         <span className="px-4 text-gray-700 leading-tight">Home</span>
                         <span className="px-4 text-gray-700 leading-tight">
