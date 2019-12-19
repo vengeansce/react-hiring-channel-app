@@ -8,12 +8,12 @@ class Update extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      address: "",
-      birthdate: "",
-      salary: "",
-      skills: "",
-      description: "",
+      name: props.name,
+      address: props.address,
+      birthdate: props.birthdate,
+      salary: props.salary,
+      skills: props.skills,
+      description: props.description,
       img: "",
 
       errorMessage: ""

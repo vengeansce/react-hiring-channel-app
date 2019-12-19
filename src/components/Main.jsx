@@ -21,10 +21,12 @@ class Card extends React.Component {
   }
 
   toggleShowMore = () => {
-    const isMore = this.state.more;
-    this.setState({
-      more: isMore == "hidden" ? "block" : "hidden"
-    });
+    if (localStorage.getItem("level") == "2") {
+      const isMore = this.state.more;
+      this.setState({
+        more: isMore == "hidden" ? "block" : "hidden"
+      });
+    }
   };
 
   hyperlink(link) {

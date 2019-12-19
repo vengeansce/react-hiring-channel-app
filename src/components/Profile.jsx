@@ -27,12 +27,15 @@ class Profile extends React.Component {
       skills: "",
       salary: "",
       updated: "",
+      location: "",
+      birthdate: "",
       img: "",
       email: "",
       description: "",
 
       isLoggedIn: false,
-      showModal: false
+      showModal: false,
+      display: "block"
     };
     this.toggleModal = this.toggleModal.bind(this);
   }
@@ -43,12 +46,15 @@ class Profile extends React.Component {
       .get(`http://localhost:8000/api/v1/engineers/${this.props.id}`)
       .then(res => {
         if (res.data.values.length > 0) {
+          log(res);
           const {
             name,
             skills,
             salary,
             updated,
             img,
+            location,
+            birthdate,
             email,
             description
           } = res.data.values[0];
@@ -58,11 +64,14 @@ class Profile extends React.Component {
             salary,
             updated,
             img,
+            location,
+            birthdate,
             email,
             description
           });
         } else {
-          alert("Engineer not found.");
+          this.setState({ display: "hidden" });
+          alert("Page not found.");
         }
       })
       .catch(err => log(err))
@@ -77,9 +86,20 @@ class Profile extends React.Component {
     s("html").classList.add("register-page-full");
     document.body.classList.add("register-page-full", "register-center");
     return (
-      <>
+      <div className={this.state.display}>
         {this.state.showModal && (
-          <Update engineerId={this.props.id} hide={this.toggleModal} />
+          <Update
+            engineerId={this.props.id}
+            hide={this.toggleModal}
+            name={this.state.name}
+            email={this.state.email}
+            salary={this.state.salary}
+            address={this.state.location}
+            birthdate={this.state.birthdate}
+            skills={this.state.skills}
+            updated={this.state.updated}
+            description={this.state.description}
+          />
         )}
         {this.state.isLoggedIn && (
           <div className="text-right">
@@ -112,6 +132,12 @@ class Profile extends React.Component {
             <div className="border-b-2 font-semibold text-lg py-2">About</div>
             <div className="flex flex-wrap text-base font-medium mt-2">
               <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+                Birthdate
+              </span>
+              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                {this.state.birthdate}
+              </span>
+              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Skills
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
@@ -135,10 +161,16 @@ class Profile extends React.Component {
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
                 {this.state.email}
               </span>
+              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+                Address
+              </span>
+              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                {this.state.location}
+              </span>
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
