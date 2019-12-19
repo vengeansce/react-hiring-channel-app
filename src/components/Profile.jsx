@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Update from "./Update";
 import { s } from "../lib/ml";
+import timeConverter from "../lib/script";
 import "../css/center.css";
 
 const log = console.log;
@@ -41,33 +42,35 @@ class Profile extends React.Component {
     axios
       .get(`http://localhost:8000/api/v1/engineers/${this.props.id}`)
       .then(res => {
-        const {
-          name,
-          skills,
-          salary,
-          updated,
-          img,
-          email,
-          description
-        } = res.data.values[0];
-        this.setState({
-          name,
-          skills,
-          salary,
-          updated,
-          img,
-          email,
-          description
-        });
+        if (res.data.values.length > 0) {
+          const {
+            name,
+            skills,
+            salary,
+            updated,
+            img,
+            email,
+            description
+          } = res.data.values[0];
+          this.setState({
+            name,
+            skills,
+            salary,
+            updated,
+            img,
+            email,
+            description
+          });
+        } else {
+          alert("Engineer not found.");
+        }
       })
-      .catch(err => alert(err))
+      .catch(err => log(err))
       .finally(() => log("Getting data: done"));
   }
 
   toggleModal() {
-    this.setState({ showModal: !this.state.showModal }, () =>
-      log(this.state.showModal)
-    );
+    this.setState({ showModal: !this.state.showModal });
   }
 
   render() {
@@ -75,7 +78,9 @@ class Profile extends React.Component {
     document.body.classList.add("register-page-full", "register-center");
     return (
       <>
-        {this.state.showModal && <Update hide={this.toggleModal} />}
+        {this.state.showModal && (
+          <Update engineerId={this.props.id} hide={this.toggleModal} />
+        )}
         {this.state.isLoggedIn && (
           <div className="text-right">
             <button
@@ -122,7 +127,7 @@ class Profile extends React.Component {
                 Last updated
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {this.state.updated}
+                {timeConverter(Number(this.state.updated))}
               </span>
               <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Email

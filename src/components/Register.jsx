@@ -62,8 +62,8 @@ class Register extends React.Component {
         return;
       }
     }
-    this.setState({ notDisabled: false });
     this.regisUser();
+    this.setState({ notDisabled: false });
   }
 
   render() {

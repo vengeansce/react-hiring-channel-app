@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "./Header";
 
 import Button from "./Button";
+import timeConverter from "../lib/script";
 import { s, ss } from "../lib/ml";
 
 const api = "http://localhost:8000/";
@@ -27,7 +28,7 @@ class Card extends React.Component {
   };
 
   hyperlink(link) {
-    window.open(link);
+    window.open("../" + link);
   }
 
   render() {
@@ -105,17 +106,6 @@ class Main extends React.Component {
       })
       .catch(err => alert(err))
       .finally(() => log("Getting data: done"));
-  }
-
-  timeConverter(menit) {
-    const hari = 60 * 24;
-    const bulan = hari * 30;
-    const tahun = bulan * 12;
-    if (menit > tahun) return Math.round(menit / tahun) + " T";
-    else if (menit > bulan) return Math.round(menit / bulan) + " B";
-    else if (menit > hari) return Math.round(menit / hari) + " D";
-    else if (menit > 60) return Math.round(menit / 60) + " H";
-    return menit + " m";
   }
 
   inputSearchHandle(e) {
@@ -198,7 +188,7 @@ class Main extends React.Component {
                 skills={elm.skills}
                 salary={elm.salary}
                 email={elm.email}
-                updated={this.timeConverter(Number(elm.updated))}
+                updated={timeConverter(Number(elm.updated))}
                 img={api + elm.img}
               />
             ))}

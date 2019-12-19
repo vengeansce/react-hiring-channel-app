@@ -1,15 +1,92 @@
 import React from "react";
+import FormData from "form-data";
+import axios from "axios";
+
+const log = console.log;
 
 class Update extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      address: "",
+      birthdate: "",
+      salary: "",
+      skills: "",
+      description: "",
+      img: "",
+
+      errorMessage: ""
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.fileHandleChange = this.fileHandleChange.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({ [e.target.id]: e.target.value });
+  }
+
+  fileHandleChange(e) {
+    this.setState({ img: e.target.files[0] });
+  }
+
+  updateUser() {
+    const id = this.props.engineerId;
+
+    const token = window.localStorage.getItem("apa_liat_liat");
+    const {
+      name,
+      address,
+      birthdate,
+      salary,
+      skills,
+      description,
+      img
+    } = this.state;
+    const form = new FormData();
+
+    form.append("name", name);
+    form.append("description", description);
+    form.append("location", address);
+    form.append("skills", skills);
+    form.append("birthdate", birthdate);
+    form.append("img", img);
+    form.append("salary", salary);
+    form.append("id", id);
+
+    axios
+      .put(`http://localhost:8000/api/v1?token=${token}`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data; boundary=" + form._boundary
+        }
+      })
+      .then(res => {
+        window.location.reload();
+      })
+      .catch(err => alert("Something error"));
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.updateUser();
+    this.setState({ notDisabled: false });
+  }
+
   render() {
     return (
       <div
         className="inset-0 absolute center"
         style={{ backgroundColor: "rgba(0, 0, 0, .5)" }}
       >
-        <form className="w-full max-w-lg bg-white p-8 rounded">
-          <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <form
+          onSubmit={this.handleSubmit}
+          className="w-full max-w-lg bg-white p-8 rounded"
+        >
+          <div className="flex flex-wrap -mx-3 mb-2">
+            <div className="w-full md:w-1/2 px-3 md:mb-0">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="name"
@@ -17,7 +94,9 @@ class Update extends React.Component {
                 Name
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                value={this.state.name}
+                onChange={this.handleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="name"
                 type="text"
                 placeholder="Jane"
@@ -31,25 +110,28 @@ class Update extends React.Component {
                 Image
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="file"
+                onChange={this.fileHandleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="img"
                 type="file"
               />
             </div>
           </div>
-          <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className="flex flex-wrap -mx-3 mb-2">
+            <div className="w-full md:w-1/2 px-3 md:mb-0">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="Address"
+                htmlFor="salary"
               >
-                Address
+                Salary ($)
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="Address"
-                type="text"
-                placeholder="Babelan, Bekasi"
+                value={this.state.salary}
+                onChange={this.handleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="salary"
+                type="number"
+                placeholder="1000"
               />
             </div>
             <div className="w-full md:w-1/2 px-3">
@@ -60,13 +142,33 @@ class Update extends React.Component {
                 Birthdate
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                value={this.state.birthdate}
+                onChange={this.handleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="birthdate"
                 type="date"
               />
             </div>
           </div>
-          <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="flex flex-wrap -mx-3 mb-2">
+            <div className="w-full px-3">
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="address"
+              >
+                Address
+              </label>
+              <input
+                value={this.state.address}
+                onChange={this.handleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="address"
+                type="text"
+                placeholder="Babelan, Bekasi"
+              />
+            </div>
+          </div>
+          <div className="flex flex-wrap -mx-3 mb-2">
             <div className="w-full px-3">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -75,14 +177,16 @@ class Update extends React.Component {
                 Skills
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                value={this.state.skills}
+                onChange={this.handleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="skills"
                 type="text"
                 placeholder="Node.js, React, Tailwind CSS, Ngoding 24 jam"
               />
             </div>
           </div>
-          <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="flex flex-wrap -mx-3 mb-2">
             <div className="w-full px-3">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -91,13 +195,15 @@ class Update extends React.Component {
                 About me
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                value={this.state.description}
+                onChange={this.handleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="description"
                 type="text"
                 placeholder="Make it as long and as crazy as you'd like"
               />
               <p className="text-red-500 text-xs italic">
-                Please fill out this field.
+                {this.state.errorMessage}
               </p>
             </div>
           </div>
