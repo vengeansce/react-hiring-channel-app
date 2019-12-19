@@ -12,6 +12,7 @@ class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = { more: "hidden" };
+    this.hyperlink = this.hyperlink.bind(this);
   }
 
   randomHeight(min, max) {
@@ -24,6 +25,10 @@ class Card extends React.Component {
       more: isMore == "hidden" ? "block" : "hidden"
     });
   };
+
+  hyperlink(link) {
+    window.location.href = link;
+  }
 
   render() {
     return (
@@ -44,6 +49,7 @@ class Card extends React.Component {
           </div>
           <div
             id="textCard"
+            onClick={() => this.hyperlink(this.props.href)}
             onMouseEnter={this.toggleShowMore}
             onMouseLeave={this.toggleShowMore}
             className="arrow-after text-card transform cursor-pointer p-4 absolute bottom-0 w-full bg-transparent text-white center"
@@ -79,7 +85,7 @@ class Main extends React.Component {
       page: 1,
       previousPage: 1,
       nextPage: 2,
-      show: 10,
+      show: 10
     };
     this.inputSearchHandle = this.inputSearchHandle.bind(this);
     this.userSelect = this.userSelect.bind(this);
@@ -113,21 +119,22 @@ class Main extends React.Component {
   }
 
   inputSearchHandle(e) {
-    this.setState({value: e.target.value }, () => this.handleChange());
+    this.setState({ value: e.target.value }, () => this.handleChange());
   }
 
   userSelect(e) {
-    this.setState({show: e.target.value}, () => this.handleChange());
+    this.setState({ show: e.target.value }, () => this.handleChange());
   }
 
   pagingClick = page => {
-    this.handleChange(page)
+    this.handleChange(page);
   };
 
   handleChange(page = this.state.page) {
-    log(this.state);
     const value = this.state.value;
-    log(`http://localhost:8000/api/v1/engineers?page=${page}&show=${this.state.show}&name=${value}&skills=${value}&salary=${value}`)
+    log(
+      `http://localhost:8000/api/v1/engineers?page=${page}&show=${this.state.show}&name=${value}&skills=${value}&salary=${value}`
+    );
     axios
       .get(
         `http://localhost:8000/api/v1/engineers?page=${page}&show=${this.state.show}&name=${value}&skills=${value}&salary=${value}`
@@ -158,8 +165,14 @@ class Main extends React.Component {
           <div id="show" className="mb-4">
             <span>Show</span>
             <div class="inline-block relative mx-2">
-              <select value={this.state.show} onChange={this.userSelect} class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                <option selected value={10}>10</option>
+              <select
+                value={this.state.show}
+                onChange={this.userSelect}
+                class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option selected value={10}>
+                  10
+                </option>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
               </select>
@@ -179,6 +192,7 @@ class Main extends React.Component {
           <div className="flex flex-wrap justify-center -m-2">
             {this.state.engineers.map((elm, i) => (
               <Card
+                href={"engineers/" + elm.id}
                 key={i}
                 name={elm.name}
                 skills={elm.skills}
@@ -208,7 +222,6 @@ class Main extends React.Component {
               </div>
             </div>
           </div>
-
         </div>
       </>
     );
@@ -218,4 +231,4 @@ class Main extends React.Component {
 export default Main;
 
 // Animation pake js kasih style height = offsetY, trus pas animate kasih 100%
-// Do spesific search 
+// Do spesific search

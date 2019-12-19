@@ -1,0 +1,16 @@
+.register-page-full {
+  height: 100%;
+}
+
+.register-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7fafc;
+}
+
+.cut-overflow-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
