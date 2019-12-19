@@ -27,7 +27,7 @@ class Card extends React.Component {
   };
 
   hyperlink(link) {
-    window.location.href = link;
+    window.open(link);
   }
 
   render() {

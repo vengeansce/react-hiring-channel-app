@@ -36,7 +36,9 @@ class Login extends React.Component {
       .then(res => {
         this.setState({ notDisabled: true });
         if (typeof (Storage == "function")) {
-          window.localStorage.setItem("apa_liat_liat", res.data.values.token);
+          const data = res.data.values;
+          window.localStorage.setItem("apa_liat_liat", data.token);
+          window.localStorage.setItem("id", data.id);
           window.location.href = "engineers";
         } else {
           alert("Sorry! No web storage support.");

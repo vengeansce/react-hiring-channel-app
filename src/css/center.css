@@ -9,6 +9,12 @@
   background-color: #f7fafc;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .cut-overflow-text {
   text-overflow: ellipsis;
   overflow: hidden;
