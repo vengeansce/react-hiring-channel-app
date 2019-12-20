@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "axios";
 import Header from "./Header";
+import Footer from "./Footer";
 
 import Button from "./Button";
-import timeConverter from "../lib/script";
+import { timeConverter } from "../lib/script";
 import { s, ss } from "../lib/ml";
 
 const api = "http://localhost:8000/";
@@ -91,7 +92,8 @@ class Main extends React.Component {
       page: 1,
       previousPage: 1,
       nextPage: 2,
-      show: 10
+      show: 10,
+      sort: "updated"
     };
     this.inputSearchHandle = this.inputSearchHandle.bind(this);
     this.userSelect = this.userSelect.bind(this);
@@ -118,7 +120,7 @@ class Main extends React.Component {
   }
 
   userSelect(e) {
-    this.setState({ show: e.target.value }, () => this.handleChange());
+    this.setState({ [e.target.id]: e.target.value }, () => this.handleChange());
   }
 
   pagingClick = page => {
@@ -127,13 +129,9 @@ class Main extends React.Component {
 
   handleChange(page = this.state.page) {
     const value = this.state.value;
-    log(
-      `http://localhost:8000/api/v1/engineers?page=${page}&show=${this.state.show}&name=${value}&skills=${value}&salary=${value}`
-    );
+    const uri = `http://localhost:8000/api/v1/engineers?page=${page}&show=${this.state.show}&sort=${this.state.sort}&name=${value}&skills=${value}&salary=${value}`;
     axios
-      .get(
-        `http://localhost:8000/api/v1/engineers?page=${page}&show=${this.state.show}&name=${value}&skills=${value}&salary=${value}`
-      )
+      .get(uri)
       .then(res => {
         const data = res.data.values;
         if (data.nextPage != null) {
@@ -157,31 +155,61 @@ class Main extends React.Component {
         <Header value={this.state.value} inputChange={this.inputSearchHandle} />
 
         <div className="p-8">
-          <div id="show" className="mb-4">
-            <span>Show</span>
-            <div class="inline-block relative mx-2">
-              <select
-                value={this.state.show}
-                onChange={this.userSelect}
-                class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option selected value={10}>
-                  10
-                </option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  class="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
+          <div className="mb-4">
+            <span>
+              <span>Show</span>
+              <div class="inline-block relative mx-2">
+                <select
+                  id="show"
+                  value={this.state.show}
+                  onChange={this.userSelect}
+                  class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
+                  <option selected value={10}>
+                    10
+                  </option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg
+                    class="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </div>
               </div>
-            </div>
-            <span>entries</span>
+            </span>
+
+            <span className="ml-2">
+              <span>Sort</span>
+              <div class="inline-block relative mx-2">
+                <select
+                  id="sort"
+                  value={this.state.sort}
+                  onChange={this.userSelect}
+                  class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option selected value={"updated"}>
+                    Updated
+                  </option>
+                  <option value={"name"}>Name</option>
+                  <option value={"skills"}>Skills</option>
+                  <option value={"salary"}>Salary</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg
+                    class="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </div>
+              </div>
+            </span>
           </div>
 
           <div className="flex flex-wrap justify-center -m-2">
@@ -208,7 +236,7 @@ class Main extends React.Component {
                 >
                   Prev
                 </button>
-                <span class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
+                <span class="inline-block h-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
                   {this.state.page}
                 </span>
                 <button
@@ -221,6 +249,7 @@ class Main extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }

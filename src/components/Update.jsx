@@ -2,6 +2,8 @@ import React from "react";
 import FormData from "form-data";
 import axios from "axios";
 
+import { validExtension } from "../lib/script";
+
 const log = console.log;
 
 class Update extends React.Component {
@@ -30,7 +32,15 @@ class Update extends React.Component {
   }
 
   fileHandleChange(e) {
-    this.setState({ img: e.target.files[0] });
+    const split = e.target.value.split(".");
+    const ext = split[split.length - 1].toLocaleLowerCase();
+    const acceptableExts = ["png", "jpg", "jpeg", "pdf"];
+
+    if (validExtension(ext, acceptableExts) != true) {
+      this.setState({ errorMessage: "File not accepted." });
+    } else {
+      this.setState({ img: e.target.files[0] });
+    }
   }
 
   updateUser() {
@@ -66,7 +76,9 @@ class Update extends React.Component {
       .then(res => {
         window.location.reload();
       })
-      .catch(err => alert("Something error"));
+      .catch(err => {
+        log("Ops, sory. Something went wrong");
+      });
   }
 
   handleSubmit(e) {
@@ -102,7 +114,10 @@ class Update extends React.Component {
                 placeholder="Jane"
               />
             </div>
-            <div className="w-full md:w-1/2 px-3">
+            <div className="w-full md:w-1/2 px-3 relative">
+              <p className="absolute right-0 pr-3 mb-2 text-red-500 text-xs italic ">
+                {this.state.errorMessage}
+              </p>
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="file"
@@ -202,9 +217,9 @@ class Update extends React.Component {
                 type="text"
                 placeholder="Make it as long and as crazy as you'd like"
               />
-              <p className="text-red-500 text-xs italic">
+              {/* <p className="text-red-500 text-xs italic">
                 {this.state.errorMessage}
-              </p>
+              </p> */}
             </div>
           </div>
           <div className="text-right mt-6">

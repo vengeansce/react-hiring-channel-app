@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import Update from "./Update";
 import { s } from "../lib/ml";
-import timeConverter from "../lib/script";
+import { timeConverter } from "../lib/script";
 import "../css/center.css";
 
 const log = console.log;
@@ -46,7 +46,6 @@ class Profile extends React.Component {
       .get(`http://localhost:8000/api/v1/engineers/${this.props.id}`)
       .then(res => {
         if (res.data.values.length > 0) {
-          log(res);
           const {
             name,
             skills,
@@ -65,7 +64,7 @@ class Profile extends React.Component {
             updated,
             img,
             location,
-            birthdate,
+            birthdate: birthdate.split("T")[0],
             email,
             description
           });
