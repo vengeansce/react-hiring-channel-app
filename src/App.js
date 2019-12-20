@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import Companies from "./Companies";
 import Engineers from "./Engineers";
-import Account from "./components/Account";
 import Login from "./components/Login";
 
 function App() {
@@ -10,14 +10,14 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route path="/engineers">
-            <Engineers />
-          </Route>
-          <Route path="/account">
-            <Account />
-          </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/companies">
+            <Companies />
+          </Route>
+          <Route path="/engineers">
+            <Engineers />
           </Route>
         </Switch>
       </div>

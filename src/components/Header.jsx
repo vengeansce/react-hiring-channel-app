@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../logo-arkademy.svg";
 
+function sessionDestroy() {
+  localStorage.clear();
+  window.location.reload();
+}
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -30,16 +35,32 @@ class Header extends React.Component {
           </div>
           <div class="w-full sm:w-1/2 md:w-2/4 lg:w-2/4 xl:w-2/6 h-12 py-2 text-center inline-block">
             <span className="pr-4 border-r-2">
-              <span className="px-4 text-gray-700 leading-tight">Home</span>
               {localStorage.length == 4 ? (
-                <Link to={localStorage.id} target="_blank">
-                  <span className="px-4 text-gray-700 leading-tight">
-                    <span className="mx-2 rounded-full w-6 h-6 bg-gray-400 inline-block">
-                      {this.state.username.charAt(0).toUpperCase()}
+                <>
+                  <Link
+                    to={
+                      (localStorage.role == "company"
+                        ? "companies"
+                        : "engineers") +
+                      "/" +
+                      localStorage.id
+                    }
+                    target="_blank"
+                  >
+                    <span className="px-4 text-gray-700 leading-tight">
+                      <span className="mx-2 rounded-full w-6 h-6 bg-gray-400 inline-block">
+                        {this.state.username.charAt(0).toUpperCase()}
+                      </span>
+                      <span>{this.state.username}</span>
                     </span>
-                    <span>{this.state.username}</span>
-                  </span>
-                </Link>
+                  </Link>
+                  <button
+                    onClick={sessionDestroy}
+                    class="bg-red-500 hover:bg-red-700 leading-tight text-white font-bold py-2 px-4 rounded"
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <Link to={"login"}>
                   <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -47,6 +68,7 @@ class Header extends React.Component {
                   </button>
                 </Link>
               )}
+              {}
             </span>
             <span className="pl-4">
               <span className="px-4 text-gray-700 leading-tight">

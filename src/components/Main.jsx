@@ -21,7 +21,7 @@ class Card extends React.Component {
   }
 
   toggleShowMore = () => {
-    if (localStorage.getItem("level") == "2") {
+    if (localStorage.getItem("role") == "admin") {
       const isMore = this.state.more;
       this.setState({
         more: isMore == "hidden" ? "block" : "hidden"

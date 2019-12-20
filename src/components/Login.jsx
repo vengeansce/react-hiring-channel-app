@@ -41,7 +41,7 @@ class Login extends React.Component {
           window.localStorage.setItem("apa_liat_liat", data.token);
           window.localStorage.setItem("id", data.id);
           window.localStorage.setItem("username", data.username);
-          window.localStorage.setItem("level", data.level);
+          window.localStorage.setItem("role", data.role);
           window.location.href = "engineers";
         } else {
           alert("Sorry! No web storage support.");
