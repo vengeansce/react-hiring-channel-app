@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { s } from "../lib/ml";
 import "../css/center.css";
 
@@ -127,12 +128,12 @@ class Login extends React.Component {
             >
               Login
             </button>
-            <a
-              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              href="#"
-            >
-              Forgot Password?
-            </a>
+
+            <Link to={"engineers/signup"}>
+              <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Or create account
+              </a>
+            </Link>
           </div>
         </form>
       </div>

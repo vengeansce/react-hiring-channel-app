@@ -191,6 +191,11 @@ class Register extends React.Component {
                 >
                   Sign Up
                 </button>
+                <Link to={"../engineers/signup"}>
+                  <a className="ml-4 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                    Sign Up as Engineer
+                  </a>
+                </Link>
               </div>
             </form>
           </div>

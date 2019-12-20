@@ -21,10 +21,10 @@ class Card extends React.Component {
   }
 
   toggleShowMore = () => {
-    if (localStorage.getItem("role") == "admin") {
+    if (localStorage.getItem("role") == "company") {
       const isMore = this.state.more;
       this.setState({
-        more: isMore == "hidden" ? "block" : "hidden"
+        more: isMore == "hidden" ? "inline-block" : "hidden"
       });
     }
   };
@@ -55,9 +55,9 @@ class Card extends React.Component {
             onClick={() => this.hyperlink(this.props.href)}
             onMouseEnter={this.toggleShowMore}
             onMouseLeave={this.toggleShowMore}
-            className="arrow-after text-card transform cursor-pointer p-4 absolute bottom-0 w-full bg-transparent text-white center"
+            className="arrow-after overflow-hidden text-card transform cursor-pointer p-4 absolute bottom-0 w-full bg-transparent text-white center"
           >
-            <div className="relative">
+            <div className="relative w-full inline-block overflow-hidden">
               <div className="text-xl font-bold">{this.props.name}</div>
               <div>
                 <div className="text-sm">{this.props.skills}</div>
@@ -66,7 +66,10 @@ class Card extends React.Component {
                 $ {this.props.salary}
               </div>
               <div className="my-2"></div>
-              <div id="more" className={this.state.more}>
+              <div
+                id="more"
+                className={"w-full inline-block " + this.state.more}
+              >
                 <Button.Message text="Message" />
                 <div className="my-2"></div>
                 <Button.Mail text={this.props.email} />
@@ -205,6 +208,9 @@ class Main extends React.Component {
                 >
                   Prev
                 </button>
+                <span class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
+                  {this.state.page}
+                </span>
                 <button
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
                   onClick={() => this.pagingClick(this.state.nextPage)}

@@ -13,7 +13,7 @@
 }
 
 .text-card {
-  height: 128px;
+  height: 140px;
 }
 
 .text-card:hover {
@@ -28,7 +28,7 @@
   transition: all 0.3s ease;
 }
 
-.btn-icon{
+.btn-icon {
   width: 31px;
 }
 
@@ -36,7 +36,7 @@
   content: "";
   border-right-width: 1px;
   height: 12px;
-  padding-left: .5rem;
+  padding-left: 0.5rem;
   display: inline-block;
 }
 

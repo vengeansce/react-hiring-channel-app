@@ -20,7 +20,14 @@ const Button = {
   Mail: props => {
     return (
       <button className={"bg-red-500 hover:bg-red-600" + style} type="button">
-        <div className="table w-full">
+        <div
+          style={{
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap"
+          }}
+          className="table w-full"
+        >
           <div className="table-row">
             <div className="table-cell btn-icon line">
               <i className="fas fa-envelope fa-fw"></i>
