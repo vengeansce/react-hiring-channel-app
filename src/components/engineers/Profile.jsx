@@ -1,17 +1,17 @@
-import React from "react";
-import axios from "axios";
-import Update from "./Update";
-import { s } from "../lib/ml";
-import { timeConverter } from "../lib/script";
-import "../css/center.css";
+import React from 'react';
+import axios from 'axios';
+import Update from './Update';
+import { s } from '../../lib/ml';
+import { timeConverter } from '../../lib/script';
+import '../../css/center.css';
 
-const log = console.log;
+const { log } = console;
 
 function isLoggedIn(propsId) {
-  const id = window.localStorage.getItem("id");
-  const apa_liat_liat = window.localStorage.getItem("apa_liat_liat");
-  if (id && apa_liat_liat) {
-    if (propsId == id) {
+  const id = window.localStorage.getItem('id');
+  const apaLiatLiat = window.localStorage.getItem('apaLiatLiat');
+  if (id && apaLiatLiat) {
+    if (propsId === id) {
       return true;
     }
   }
@@ -23,28 +23,29 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      skills: "",
-      salary: "",
-      updated: "",
-      location: "",
-      birthdate: "",
-      img: "",
-      email: "",
-      description: "",
+      name: '',
+      skills: '',
+      salary: '',
+      updated: '',
+      location: '',
+      birthdate: '',
+      img: '',
+      email: '',
+      description: '',
 
-      isLoggedIn: false,
+      loggedIn: false,
       showModal: false,
-      display: "block"
+      display: 'block',
     };
     this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ isLoggedIn: isLoggedIn(this.props.id) });
+    const { id } = this.props;
+    this.setState({ loggedIn: isLoggedIn(id) });
     axios
-      .get(`http://localhost:8000/api/v1/engineers/${this.props.id}`)
-      .then(res => {
+      .get(`http://localhost:8000/api/v1/engineers/${id}`)
+      .then((res) => {
         if (res.data.values.length > 0) {
           const {
             name,
@@ -55,7 +56,7 @@ class Profile extends React.Component {
             location,
             birthdate,
             email,
-            description
+            description,
           } = res.data.values[0];
           this.setState({
             name,
@@ -64,47 +65,55 @@ class Profile extends React.Component {
             updated,
             img,
             location,
-            birthdate: birthdate.split("T")[0],
+            birthdate: birthdate.split('T')[0],
             email,
-            description
+            description,
           });
         } else {
-          this.setState({ display: "hidden" });
-          alert("Page not found.");
+          this.setState({ display: 'hidden' });
+          // eslint-disable-next-line no-alert
+          alert('Page not found.');
         }
       })
-      .catch(err => log(err))
-      .finally(() => log("Getting data: done"));
+      .catch((err) => log(err))
+      .finally(() => log('Getting data: done'));
   }
 
   toggleModal() {
-    this.setState({ showModal: !this.state.showModal });
+    const { showModal } = this.state;
+    this.setState({ showModal: !showModal });
   }
 
   render() {
-    s("html").classList.add("register-page-full");
-    document.body.classList.add("register-page-full", "register-center");
+    s('html').classList.add('register-page-full');
+    document.body.classList.add('register-page-full', 'register-center');
+    const { id } = this.props;
+    const {
+      name, email, salary, location, birthdate, skills,
+      updated, description, display, loggedIn, img, showModal,
+    } = this.state;
     return (
-      <div className={this.state.display}>
-        {this.state.showModal && (
+      <div className={display}>
+        {showModal && (
           <Update
-            engineerId={this.props.id}
+            engineerId={id}
             hide={this.toggleModal}
-            name={this.state.name}
-            email={this.state.email}
-            salary={this.state.salary}
-            address={this.state.location}
-            birthdate={this.state.birthdate}
-            skills={this.state.skills}
-            updated={this.state.updated}
-            description={this.state.description}
+            name={name}
+            email={email}
+            salary={salary}
+            address={location}
+            birthdate={birthdate}
+            skills={skills}
+            updated={updated}
+            description={description}
           />
         )}
-        {this.state.isLoggedIn && (
+        {loggedIn && (
           <div className="text-right">
             <button
               onClick={this.toggleModal}
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 mb-2 rounded"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 mb-2 rounded"
+              type="button"
             >
               Edit
             </button>
@@ -114,18 +123,18 @@ class Profile extends React.Component {
           <div
             className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
             style={{
-              backgroundImage: `url("http://localhost:8000/${this.state.img}")`,
-              backgroundPosition: "center"
+              backgroundImage: `url("http://localhost:8000/${img}")`,
+              backgroundPosition: 'center',
             }}
             title="Woman holding a mug"
-          ></div>
+          />
           <div className="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
             <div className="mb-8">
               <div className="text-black font-bold text-xl mb-2">
-                {this.state.name}
+                {name}
               </div>
               <p className="text-grey-darker text-base">
-                {this.state.description}
+                {description}
               </p>
             </div>
             <div className="border-b-2 font-semibold text-lg py-2">About</div>
@@ -134,37 +143,37 @@ class Profile extends React.Component {
                 Birthdate
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {this.state.birthdate}
+                {birthdate}
               </span>
               <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Skills
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {this.state.skills}
+                {skills}
               </span>
               <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Salary
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {"$ " + this.state.salary}
+                {`$ ${salary}`}
               </span>
               <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Last updated
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {timeConverter(Number(this.state.updated))}
+                {timeConverter(Number(updated))}
               </span>
               <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Email
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {this.state.email}
+                {email}
               </span>
               <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Address
               </span>
               <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {this.state.location}
+                {location}
               </span>
             </div>
           </div>

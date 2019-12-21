@@ -1,26 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { s } from "../../lib/ml";
-import "../../css/tailwind.css";
-import "../../css/center.css";
-
-const log = console.log;
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { s } from '../../lib/ml';
+import '../../css/tailwind.css';
+import '../../css/center.css';
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      username: "",
-      email: "",
-      password: "",
+      name: '',
+      username: '',
+      email: '',
+      password: '',
 
-      displayError: "hidden",
-      errorMessage: "Please fill out all of this field.",
+      displayError: 'hidden',
+      errorMessage: 'Please fill out all of this field.',
 
-      alert: "hidden",
-      notDisabled: true
+      alert: 'hidden',
+      notDisabled: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -31,33 +30,37 @@ class Register extends React.Component {
   }
 
   regisUser() {
-    const { name, username, email, password } = this.state;
+    const {
+      name, username, email, password,
+    } = this.state;
     axios
-      .post("http://localhost:8000/api/v1/companies/signup", {
+      .post('http://localhost:8000/api/v1/companies/signup', {
         name,
         username,
         email,
-        password
+        password,
       })
-      .then(res => {
-        this.setState({ alert: "block", notDisabled: true });
+      .then(() => {
+        this.setState({ alert: 'block', notDisabled: true });
       })
-      .catch(err => {
+      .catch(() => {
         this.setState({
-          displayError: "block",
-          errorMessage: "Username or email already registered",
-          notDisabled: true
+          displayError: 'block',
+          errorMessage: 'Username or email already registered',
+          notDisabled: true,
         });
       });
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    // eslint-disable-next-line no-restricted-syntax
     for (const state in this.state) {
-      if (this.state[state] == "") {
+      // eslint-disable-next-line react/destructuring-assignment
+      if (this.state[state] === '') {
         this.setState({
-          displayError: "block",
-          errorMessage: "Please fill out all of this field."
+          displayError: 'block',
+          errorMessage: 'Please fill out all of this field.',
         });
         return;
       }
@@ -68,13 +71,18 @@ class Register extends React.Component {
 
   render() {
     // Perfect centing
-    s("html").classList.add("register-page-full");
-    document.body.classList.add("register-page-full", "register-center");
+    s('html').classList.add('register-page-full');
+    document.body.classList.add('register-page-full', 'register-center');
+
+    const {
+      name, alert, username, email, password, displayError,
+      errorMessage, notDisabled,
+    } = this.state;
 
     return (
       <div className="container mx-auto h-full shadow-lg bg-white rounded overflow-hidden">
         <div
-          className={"bg-blue-900 text-center py-4 lg:px-4 " + this.state.alert}
+          className={`bg-blue-900 text-center py-4 lg:px-4 ${alert}`}
         >
           <Link
             to="../../login"
@@ -112,7 +120,7 @@ class Register extends React.Component {
                     Company Name
                   </label>
                   <input
-                    value={this.state.name}
+                    value={name}
                     onChange={this.handleChange}
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="name"
@@ -130,7 +138,7 @@ class Register extends React.Component {
                     Username
                   </label>
                   <input
-                    value={this.state.username}
+                    value={username}
                     onChange={this.handleChange}
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="username"
@@ -146,7 +154,7 @@ class Register extends React.Component {
                     Email
                   </label>
                   <input
-                    value={this.state.email}
+                    value={email}
                     onChange={this.handleChange}
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="email"
@@ -164,7 +172,7 @@ class Register extends React.Component {
                     Password
                   </label>
                   <input
-                    value={this.state.password}
+                    value={password}
                     onChange={this.handleChange}
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="password"
@@ -172,26 +180,27 @@ class Register extends React.Component {
                     placeholder="******************"
                   />
                   <p className="text-gray-600 text-xs italic">
-                    Make it as long and as crazy as you'd like
+                    Make it as long and as crazy as you&aposd like
                   </p>
                   <p
                     className={
-                      "text-red-500 text-xs italic " + this.state.displayError
+                      `text-red-500 text-xs italic ${displayError}`
                     }
                   >
-                    {this.state.errorMessage}
+                    {errorMessage}
                   </p>
                 </div>
               </div>
               <div>
                 <button
-                  disabled={!this.state.notDisabled}
-                  class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-2 px-4 mb-6 rounded"
+                  disabled={!notDisabled}
+                  className="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-2 px-4 mb-6 rounded"
                   type="submit"
                 >
                   Sign Up
                 </button>
-                <Link to={"../engineers/signup"}>
+                <Link to="../engineers/signup">
+                  // eslint-disable-next-line jsx-a11y/anchor-is-valid
                   <a className="ml-4 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                     Sign Up as Engineer
                   </a>

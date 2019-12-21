@@ -59,3 +59,13 @@
 .bg-transparent {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+/* Not used */
+.mt-animation {
+  margin-top: 10px;
+  transition: margin-top 0.3s;
+}
+
+.mt-animation:hover {
+  margin-top: 0px;
+}

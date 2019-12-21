@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { s } from "../lib/ml";
+import { s } from "../../lib/ml";
 import "../css/tailwind.css";
 import "../css/center.css";
 

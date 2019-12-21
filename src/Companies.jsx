@@ -1,16 +1,18 @@
-import React from "react";
-import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
+import React from 'react';
+import {
+  Switch, Route, useRouteMatch, useParams,
+} from 'react-router-dom';
 
-import Register from "./components/companies/Register";
-import Profile from "./components/companies/Profile";
+import Register from './components/companies/Register';
+import Profile from './components/companies/Profile';
 
 function Company() {
-  let { id } = useParams();
+  const { id } = useParams();
   return <Profile id={id} />;
 }
 
 function Companies() {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>

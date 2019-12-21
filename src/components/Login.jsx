@@ -1,23 +1,23 @@
-import React from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { s } from "../lib/ml";
-import "../css/center.css";
+import React from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { s } from '../lib/ml';
+import '../css/center.css';
 
-const log = console.log;
+const { log } = console;
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: "",
-      password: "",
+      user: '',
+      password: '',
 
-      displayError: "hidden",
-      errorMessage: "Please fill out all of this field.",
+      displayError: 'hidden',
+      errorMessage: 'Please fill out all of this field.',
 
-      alert: "hidden",
-      notDisabled: true
+      alert: 'hidden',
+      notDisabled: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -30,29 +30,29 @@ class Login extends React.Component {
   loginUser() {
     const { user, password } = this.state;
     axios
-      .post("http://localhost:8000/api/v1/login", {
+      .post('http://localhost:8000/api/v1/login', {
         user,
-        password
+        password,
       })
-      .then(res => {
+      .then((res) => {
         this.setState({ notDisabled: true });
-        if (typeof (Storage == "function")) {
+        if (typeof (Storage === 'function')) {
           log(res);
           const data = res.data.values;
-          window.localStorage.setItem("apa_liat_liat", data.token);
-          window.localStorage.setItem("id", data.id);
-          window.localStorage.setItem("username", data.username);
-          window.localStorage.setItem("role", data.role);
-          window.location.href = "engineers";
+          window.localStorage.setItem('apaLiatLiat', data.token);
+          window.localStorage.setItem('id', data.id);
+          window.localStorage.setItem('username', data.username);
+          window.localStorage.setItem('role', data.role);
+          window.location.href = 'engineers';
         } else {
-          alert("Sorry! No web storage support.");
+          alert('Sorry! No web storage support.');
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.setState({
-          displayError: "block",
-          errorMessage: "Incorrect username or password.",
-          notDisabled: true
+          displayError: 'block',
+          errorMessage: 'Incorrect username or password.',
+          notDisabled: true,
         });
       });
   }
@@ -60,10 +60,11 @@ class Login extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     for (const state in this.state) {
-      if (this.state[state] == "") {
+      // eslint-disable-next-line react/destructuring-assignment
+      if (this.state[state] === '') {
         this.setState({
-          displayError: "block",
-          errorMessage: "Please fill out all of this field."
+          displayError: 'block',
+          errorMessage: 'Please fill out all of this field.',
         });
         return;
       }
@@ -73,8 +74,9 @@ class Login extends React.Component {
   }
 
   render() {
-    s("html").classList.add("register-page-full");
-    document.body.classList.add("register-page-full", "register-center");
+    s('html').classList.add('register-page-full');
+    document.body.classList.add('register-page-full', 'register-center');
+    const { user, password, displayError, errorMessage, notDisabled } = this.state;
     return (
       <div className="w-full max-w-xs bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="text-4xl mb-4">
@@ -89,7 +91,7 @@ class Login extends React.Component {
               Username or email address
             </label>
             <input
-              value={this.state.user}
+              value={user}
               onChange={this.handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="user"
@@ -105,7 +107,7 @@ class Login extends React.Component {
               Password
             </label>
             <input
-              value={this.state.password}
+              value={password}
               onChange={this.handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
@@ -114,22 +116,22 @@ class Login extends React.Component {
             />
             <p
               className={
-                "text-red-500 text-xs italic " + this.state.displayError
+                `text-red-500 text-xs italic ${displayError}`
               }
             >
-              {this.state.errorMessage}
+              {errorMessage}
             </p>
           </div>
           <div className="flex items-center justify-between">
             <button
-              disabled={!this.state.notDisabled}
+              disabled={!notDisabled}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Login
             </button>
 
-            <Link to={"engineers/signup"}>
+            <Link to="engineers/signup">
               <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                 Or create account
               </a>

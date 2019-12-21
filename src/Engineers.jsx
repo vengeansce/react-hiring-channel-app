@@ -1,17 +1,19 @@
-import React from "react";
-import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
+import React from 'react';
+import {
+  Switch, Route, useRouteMatch, useParams,
+} from 'react-router-dom';
 
-import Main from "./components/Main";
-import Register from "./components/Register";
-import Profile from "./components/Profile";
+import Main from './components/Main';
+import Register from './components/engineers/Register';
+import Profile from './components/engineers/Profile';
 
 function Engineer() {
-  let { id } = useParams();
+  const { id } = useParams();
   return <Profile id={id} />;
 }
 
 function Engineers() {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>
