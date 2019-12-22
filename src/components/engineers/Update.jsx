@@ -4,8 +4,6 @@ import axios from 'axios';
 
 import { validExtension } from '../../lib/script';
 
-const { log } = console;
-
 class Update extends React.Component {
   constructor(props) {
     super(props);
@@ -77,9 +75,8 @@ class Update extends React.Component {
       .then(() => {
         window.location.reload();
       })
-      .catch(() => {
-        log('Ops, sory. Something went wrong');
-      });
+      // eslint-disable-next-line no-alert
+      .catch(() => alert('File too big. Max: 1mb'));
   }
 
   handleSubmit(e) {

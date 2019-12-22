@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from './Button';
 
-class Card extends React.Component {
-  static hyperlink(link) {
-    window.open(`../${link}`);
-  }
+function hyperlink(link) {
+  window.open(`../${link}`);
+}
 
+class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = { more: 'hidden' };
@@ -50,8 +50,8 @@ class Card extends React.Component {
             id="textCard"
             role="link"
             tabIndex="0"
-            onClick={() => this.hyperlink(href)}
-            onKeyDown={this.hyperlink(href)}
+            onClick={() => hyperlink(href)}
+            onKeyDown={() => hyperlink(href)}
             onMouseEnter={this.toggleShowMore}
             onMouseLeave={this.toggleShowMore}
             className="arrow-after overflow-hidden text-card transform cursor-pointer p-4 absolute bottom-0 w-full bg-transparent text-white center"

@@ -56,7 +56,14 @@ class Main extends React.Component {
     this.handleChange(page);
   }
 
-  handleChange({ page } = this.state) {
+  handleChange(pageParam) {
+    let page = '';
+    if (pageParam) {
+      page = pageParam;
+    } else {
+      const { page: pageState } = this.state;
+      page = pageState;
+    }
     const { value, show, sort } = this.state;
     const uri = `http://localhost:8000/api/v1/engineers?page=${page}&show=${show}&sort=${sort}&name=${value}&skills=${value}&salary=${value}`;
     axios
@@ -98,7 +105,7 @@ class Main extends React.Component {
                   onChange={this.userSelect}
                   className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
-                  <option selected value={10}>
+                  <option value={10}>
                     10
                   </option>
                   <option value={25}>25</option>
@@ -125,7 +132,7 @@ class Main extends React.Component {
                   onChange={this.userSelect}
                   className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
-                  <option selected value="updated">
+                  <option value="updated">
                     Updated
                   </option>
                   <option value="name">Name</option>

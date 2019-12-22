@@ -2,8 +2,6 @@ import React from 'react';
 import FormData from 'form-data';
 import axios from 'axios';
 
-const { log } = console;
-
 class Update extends React.Component {
   constructor(props) {
     super(props);
@@ -55,7 +53,8 @@ class Update extends React.Component {
       .then(() => {
         window.location.reload();
       })
-      .catch(() => log('Something error'));
+      // eslint-disable-next-line no-alert
+      .catch(() => alert('File too big. Max: 1mb'));
   }
 
   handleSubmit(e) {

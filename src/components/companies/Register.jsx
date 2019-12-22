@@ -180,7 +180,7 @@ class Register extends React.Component {
                     />
                   </label>
                   <p className="text-gray-600 text-xs italic">
-                    Make it as long and as crazy as you&aposd like
+                    Make it as long and as crazy as you&apos;d like
                   </p>
                   <p
                     className={
@@ -200,7 +200,7 @@ class Register extends React.Component {
                   Sign Up
                 </button>
                 <Link to="../engineers/signup">
-                  // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                  {/* // eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                   <a className="ml-4 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                     Sign Up as Engineer
                   </a>
