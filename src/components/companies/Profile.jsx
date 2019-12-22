@@ -27,7 +27,7 @@ class Profile extends React.Component {
       img: '',
       email: '',
       description: '',
-      isLoggedIn: false,
+      loggedIn: false,
       showModal: false,
       display: 'block',
     };
@@ -36,7 +36,7 @@ class Profile extends React.Component {
 
   componentDidMount() {
     const { id } = this.props;
-    this.setState({ isLoggedIn: isLoggedIn(id) });
+    this.setState({ loggedIn: isLoggedIn(id) });
     axios
       .get(`http://localhost:8000/api/v1/companies/${id}`)
       .then((res) => {
@@ -75,7 +75,7 @@ class Profile extends React.Component {
     document.body.classList.add('register-page-full', 'register-center');
     const { id } = this.props;
     const {
-      display, name, email, location, description, showModal, img, isLoggedIn,
+      display, name, email, location, description, showModal, img, loggedIn,
     } = this.state;
     return (
       <div className={display}>
@@ -89,7 +89,7 @@ class Profile extends React.Component {
             description={description}
           />
         )}
-        {isLoggedIn && (
+        {loggedIn && (
           <div className="text-right">
             <button
               onClick={this.toggleModal}

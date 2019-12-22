@@ -11,11 +11,13 @@ function timeConverter(menit) {
 }
 
 function validExtension(ext, acceptableExts) {
+  // eslint-disable-next-line no-restricted-syntax
   for (const acceptExt of acceptableExts) {
     if (acceptExt === ext) {
       return true;
     }
   }
+  return false;
 }
 
 export { timeConverter, validExtension };

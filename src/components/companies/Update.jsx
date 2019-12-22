@@ -48,6 +48,7 @@ class Update extends React.Component {
     axios
       .put(`http://localhost:8000/api/v1?token=${token}`, form, {
         headers: {
+          // eslint-disable-next-line no-underscore-dangle
           'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
         },
       })
@@ -84,15 +85,15 @@ class Update extends React.Component {
                 htmlFor="name"
               >
                 Name
+                <input
+                  value={name}
+                  onChange={this.handleChange}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  id="name"
+                  type="text"
+                  placeholder="PT Papa Jaya Agung"
+                />
               </label>
-              <input
-                value={name}
-                onChange={this.handleChange}
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="name"
-                type="text"
-                placeholder="PT Papa Jaya Agung"
-              />
             </div>
             <div className="w-full md:w-1/2 px-3">
               <label
@@ -100,13 +101,13 @@ class Update extends React.Component {
                 htmlFor="file"
               >
                 Image
+                <input
+                  onChange={this.fileHandleChange}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="img"
+                  type="file"
+                />
               </label>
-              <input
-                onChange={this.fileHandleChange}
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="img"
-                type="file"
-              />
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-2" />
@@ -117,15 +118,15 @@ class Update extends React.Component {
                 htmlFor="address"
               >
                 Address
+                <input
+                  value={address}
+                  onChange={this.handleChange}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="address"
+                  type="text"
+                  placeholder="Babelan, Bekasi"
+                />
               </label>
-              <input
-                value={address}
-                onChange={this.handleChange}
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="address"
-                type="text"
-                placeholder="Babelan, Bekasi"
-              />
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-2">
@@ -135,15 +136,15 @@ class Update extends React.Component {
                 htmlFor="description"
               >
                 About Company
+                <input
+                  value={description}
+                  onChange={this.handleChange}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="description"
+                  type="text"
+                  placeholder="Make it as long and as crazy as you'd like"
+                />
               </label>
-              <input
-                value={description}
-                onChange={this.handleChange}
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="description"
-                type="text"
-                placeholder="Make it as long and as crazy as you'd like"
-              />
               <p className="text-red-500 text-xs italic">
                 {errorMessage}
               </p>
