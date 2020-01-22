@@ -1,4 +1,4 @@
-# Hiring Channel API
+# Hiring Channel
 
 Hiring Channel is web applications where Engineer and Company can communicate for looking/hiring jobs.
 
