@@ -20,7 +20,7 @@ Hiring Channel is web applications where Engineer and Company can communicate fo
 
 ## Installation
 
-Use the package manager yarn to install dependencies.
+Clone this repository and then use the package manager yarn to install dependencies.
 
 ```bash
 yarn
