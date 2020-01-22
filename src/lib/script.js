@@ -1,3 +1,8 @@
+function sessionCheck() {
+  if (localStorage.length === 4) {
+    window.location.replace(`${window.location.origin}/engineers`);
+  }
+}
 function timeConverter(menit) {
   const hari = 60 * 24;
   const bulan = hari * 30;
@@ -20,4 +25,4 @@ function validExtension(ext, acceptableExts) {
   return false;
 }
 
-export { timeConverter, validExtension };
+export { timeConverter, validExtension, sessionCheck };

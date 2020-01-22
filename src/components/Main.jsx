@@ -1,13 +1,17 @@
 import React from 'react';
 import axios from 'axios';
+
+import { connect } from 'react-redux';
+import { search } from '../redux/actions';
+
 import Header from './Header';
 import Footer from './Footer';
-
-import { timeConverter } from '../lib/script';
 import Card from './Card';
+import Loader from './Loader';
+import { timeConverter } from '../lib/script';
 import '../App.css';
 
-const api = 'http://localhost:8000/';
+const api = process.env.REACT_APP_BASE_URL;
 const { log } = console;
 
 class Main extends React.Component {
@@ -15,12 +19,12 @@ class Main extends React.Component {
     super(props);
     this.state = {
       engineers: [],
-      value: '',
       page: 1,
       previousPage: 1,
       nextPage: 2,
       show: 10,
       sort: 'updated',
+      isLoading: false,
     };
     this.inputSearchHandle = this.inputSearchHandle.bind(this);
     this.userSelect = this.userSelect.bind(this);
@@ -29,7 +33,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     axios
-      .get('http://localhost:8000/api/v1/engineers?page=1')
+      .get(`${process.env.REACT_APP_API_ENDPOINT}engineers?page=1`)
       .then((res) => {
         const data = res.data.values;
         this.setState({
@@ -45,7 +49,9 @@ class Main extends React.Component {
   }
 
   inputSearchHandle(e) {
-    this.setState({ value: e.target.value }, () => this.handleChange());
+    const { handleSearch } = this.props;
+    handleSearch(e.target.value);
+    this.handleChange();
   }
 
   userSelect(e) {
@@ -56,7 +62,14 @@ class Main extends React.Component {
     this.handleChange(page);
   }
 
+  load() {
+    const { isLoading } = this.state;
+    this.setState({ isLoading: !isLoading });
+    // document.body.classList.toggle('overflow-hidden');
+  }
+
   handleChange(pageParam) {
+    this.load();
     let page = '';
     if (pageParam) {
       page = pageParam;
@@ -64,8 +77,9 @@ class Main extends React.Component {
       const { page: pageState } = this.state;
       page = pageState;
     }
-    const { value, show, sort } = this.state;
-    const uri = `http://localhost:8000/api/v1/engineers?page=${page}&show=${show}&sort=${sort}&name=${value}&skills=${value}&salary=${value}`;
+    const { search: value } = this.props;
+    const { show, sort } = this.state;
+    const uri = `${process.env.REACT_APP_API_ENDPOINT}engineers?page=${page}&show=${show}&sort=${sort}&name=${value}&skills=${value}&salary=${value}`;
     axios
       .get(uri)
       .then((res) => {
@@ -83,17 +97,18 @@ class Main extends React.Component {
       })
       // eslint-disable-next-line no-alert
       .catch(() => alert('Something went wrong.'))
-      .finally(() => log('Getting data: done'));
+      .finally(() => this.load());
   }
 
   render() {
     const {
-      value, show, page, previousPage, nextPage, sort, engineers,
+      show, page, previousPage, nextPage, sort, engineers, isLoading,
     } = this.state;
     return (
       <>
-        <Header value={value} inputChange={this.inputSearchHandle} />
-
+        {isLoading
+        && <Loader />}
+        <Header inputChange={this.inputSearchHandle} />
         <div className="p-8">
           <div className="mb-4">
             <span>
@@ -196,8 +211,14 @@ class Main extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  search: state.search,
+});
+const mapDispatchToProps = (dispatch) => ({
+  handleSearch: (value) => dispatch(search(value)),
+});
 
-export default Main;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 // Animation pake js kasih style height = offsetY, trus pas animate kasih 100%
 // Do spesific search

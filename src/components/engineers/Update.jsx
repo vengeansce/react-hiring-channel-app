@@ -7,14 +7,17 @@ import { validExtension } from '../../lib/script';
 class Update extends React.Component {
   constructor(props) {
     super(props);
+    const {
+      name, address, birthdate, salary, skills, description, currentImg,
+    } = props;
     this.state = {
-      name: props.name,
-      address: props.address,
-      birthdate: props.birthdate,
-      salary: props.salary,
-      skills: props.skills,
-      description: props.description,
-      img: '',
+      name,
+      address,
+      birthdate,
+      salary,
+      skills,
+      description,
+      img: currentImg,
 
       errorMessage: '',
     };
@@ -66,7 +69,7 @@ class Update extends React.Component {
     form.append('id', id);
 
     axios
-      .put(`http://localhost:8000/api/v1?token=${token}`, form, {
+      .put(`${process.env.REACT_APP_API_ENDPOINT}?token=${token}`, form, {
         headers: {
           // eslint-disable-next-line no-underscore-dangle
           'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
@@ -126,6 +129,7 @@ class Update extends React.Component {
               >
                 Image
                 <input
+                  // value={currentImg}
                   onChange={this.fileHandleChange}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="img"

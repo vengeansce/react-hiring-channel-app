@@ -44,7 +44,7 @@ class Update extends React.Component {
     form.append('id', id);
 
     axios
-      .put(`http://localhost:8000/api/v1?token=${token}`, form, {
+      .put(`${process.env.REACT_APP_API_ENDPOINT}?token=${token}`, form, {
         headers: {
           // eslint-disable-next-line no-underscore-dangle
           'Content-Type': `multipart/form-data; boundary=${form._boundary}`,

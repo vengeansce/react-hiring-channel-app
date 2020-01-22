@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { s } from '../lib/ml';
+import { sessionCheck } from '../lib/script';
 import '../css/center.css';
 
 const { log } = console;
@@ -31,7 +32,7 @@ class Login extends React.Component {
   loginUser() {
     const { user, password } = this.state;
     axios
-      .post('http://localhost:8000/api/v1/login', {
+      .post(`${process.env.REACT_APP_API_ENDPOINT}login`, {
         user,
         password,
       })
@@ -77,6 +78,7 @@ class Login extends React.Component {
   }
 
   render() {
+    sessionCheck();
     s('html').classList.add('register-page-full');
     document.body.classList.add('register-page-full', 'register-center');
     const {

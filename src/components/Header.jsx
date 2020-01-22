@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import logo from '../logo-arkademy.svg';
 
 function sessionDestroy() {
   localStorage.clear();
   window.location.reload();
+}
+
+function engineersHome() {
+  window.location.href = `${window.location.origin}/engineers`;
 }
 
 class Header extends React.Component {
@@ -16,15 +21,17 @@ class Header extends React.Component {
   }
 
   render() {
-    const { value, inputChange } = this.props;
+    const { search: value, inputChange } = this.props;
     const { username } = this.state;
+    const searchBar = window.location.pathname.length === 10 ? '' : 'invisible';
     return (
       <header className="border-b-4 p-5">
         <div className="flex flex-wrap">
-          <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/6 h-12 center">
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+          <div onClick={engineersHome} className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/6 h-12 cursor-pointer center" role="link" tabIndex="0">
             <img className="arkademy-logo inline" src={logo} alt="Arkademy" />
           </div>
-          <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-3/6 h-12 relative">
+          <div className={`${searchBar} w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-3/6 h-12 py-1 relative`}>
             <i className="fas fa-search absolute py-3 pl-4" />
             <input
               className="w-full bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 pl-12 pr-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -58,28 +65,37 @@ class Header extends React.Component {
                   </Link>
                   <button
                     onClick={sessionDestroy}
-                    className="bg-red-500 hover:bg-red-700 leading-tight text-white font-bold py-2 px-4 rounded"
+                    className="bg-red-500 hover:bg-red-700 leading-tight text-white font-bold h-full px-4 rounded"
                     type="button"
                   >
                     Logout
                   </button>
                 </>
               ) : (
-                <Link to="login">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">
-                    Login
+                <Link to={`//${window.location.host}/login`}>
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-full px-4 rounded" type="button">
+                      Login
                   </button>
                 </Link>
               )}
-              {}
             </span>
             <span className="pl-4">
-              <span className="px-4 text-gray-700 leading-tight">
-                <i className="fas fa-comment-dots" />
-              </span>
-              <span className="px-4 text-gray-700 leading-tight">
-                <i className="fas fa-bell" />
-              </span>
+              {localStorage.length === 4 ? (
+                <>
+                  <span className="px-4 text-gray-700 leading-tight">
+                    <i className="fas fa-comment-dots" />
+                  </span>
+                  <span className="px-4 text-gray-700 leading-tight">
+                    <i className="fas fa-bell" />
+                  </span>
+                </>
+              ) : (
+                <Link to="companies/signup">
+                  <button className="bg-green-500 hover:bg-green-700 text-white font-bold h-full px-4 rounded" type="button">
+                      Company
+                  </button>
+                </Link>
+              )}
             </span>
           </div>
         </div>
@@ -88,4 +104,8 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  search: state.search,
+});
+
+export default connect(mapStateToProps)(Header);

@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { s } from '../../lib/ml';
+import { sessionCheck } from '../../lib/script';
 import '../../css/tailwind.css';
 import '../../css/center.css';
 
@@ -34,7 +35,7 @@ class Register extends React.Component {
       name, username, email, password,
     } = this.state;
     axios
-      .post('http://localhost:8000/api/v1/companies/signup', {
+      .post(`${process.env.REACT_APP_API_ENDPOINT}companies/signup`, {
         name,
         username,
         email,
@@ -70,6 +71,7 @@ class Register extends React.Component {
   }
 
   render() {
+    sessionCheck();
     // Perfect centing
     s('html').classList.add('register-page-full');
     document.body.classList.add('register-page-full', 'register-center');
@@ -157,7 +159,7 @@ class Register extends React.Component {
                       onChange={this.handleChange}
                       className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="email"
-                      type="text"
+                      type="email"
                       placeholder="papa@jaya.com"
                     />
                   </label>

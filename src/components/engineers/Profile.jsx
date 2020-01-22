@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Header from '../Header';
+import Footer from '../Footer';
 import Update from './Update';
 import { s } from '../../lib/ml';
 import { timeConverter } from '../../lib/script';
@@ -44,7 +46,7 @@ class Profile extends React.Component {
     const { id } = this.props;
     this.setState({ loggedIn: isLoggedIn(id) });
     axios
-      .get(`http://localhost:8000/api/v1/engineers/${id}`)
+      .get(`${process.env.REACT_APP_API_ENDPOINT}engineers/${id}`)
       .then((res) => {
         if (res.data.values.length > 0) {
           const {
@@ -85,19 +87,23 @@ class Profile extends React.Component {
   }
 
   render() {
-    s('html').classList.add('register-page-full');
-    document.body.classList.add('register-page-full', 'register-center');
+    document.body.classList.add('min-h-screen');
+    s('#root').classList.add('flex', 'flex-col', 'min-h-screen');
     const { id } = this.props;
     const {
       name, email, salary, location, birthdate, skills,
       updated, description, display, loggedIn, img, showModal,
     } = this.state;
+    const currentImg = process.env.REACT_APP_BASE_URL + img;
     return (
-      <div className={display}>
-        {showModal && (
+      <>
+        <Header />
+        <div className={`${display} flex-grow mx-auto my-8`}>
+          {showModal && (
           <Update
             engineerId={id}
             hide={this.toggleModal}
+            currentImg={currentImg}
             name={name}
             email={email}
             salary={salary}
@@ -107,8 +113,8 @@ class Profile extends React.Component {
             updated={updated}
             description={description}
           />
-        )}
-        {loggedIn && (
+          )}
+          {loggedIn && (
           <div className="text-right">
             <button
               onClick={this.toggleModal}
@@ -118,67 +124,69 @@ class Profile extends React.Component {
               Edit
             </button>
           </div>
-        )}
-        <div className="max-w-xl w-full lg:flex">
-          <div
-            className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
-            style={{
-              backgroundImage: `url("http://localhost:8000/${img}")`,
-              backgroundPosition: 'center',
-            }}
-            title="Woman holding a mug"
-          />
-          <div className="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-            <div className="mb-8">
-              <div className="text-black font-bold text-xl mb-2">
-                {name}
+          )}
+          <div className="max-w-xl w-full lg:flex">
+            <div
+              className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+              style={{
+                backgroundImage: `url("${currentImg}")`,
+                backgroundPosition: 'center',
+              }}
+              title="Woman holding a mug"
+            />
+            <div className="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+              <div className="mb-8">
+                <div className="text-black font-bold text-xl mb-2">
+                  {name}
+                </div>
+                <p className="text-grey-darker text-base">
+                  {description}
+                </p>
               </div>
-              <p className="text-grey-darker text-base">
-                {description}
-              </p>
-            </div>
-            <div className="border-b-2 font-semibold text-lg py-2">About</div>
-            <div className="flex flex-wrap text-base font-medium mt-2">
-              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+              <div className="border-b-2 font-semibold text-lg py-2">About</div>
+              <div className="flex flex-wrap text-base font-medium mt-2">
+                <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Birthdate
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {birthdate}
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                  {birthdate}
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Skills
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {skills}
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                  {skills}
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Salary
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {`$ ${salary}`}
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                  {`$ ${salary}`}
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Last updated
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {timeConverter(Number(updated))}
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                  {timeConverter(Number(updated))}
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Email
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {email}
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-900 my-2">
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                  {email}
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-900 my-2">
                 Address
-              </span>
-              <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
-                {location}
-              </span>
+                </span>
+                <span className="w-full sm:w-1/2 text-indigo-600 my-2 cut-overflow-text">
+                  {location}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <Footer />
+      </>
     );
   }
 }
